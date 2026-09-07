@@ -1,8 +1,8 @@
 .DS_Store
 .venv/
+.keras/
 __pycache__/
 .pytest_cache/
 *.py[cod]
 artifacts/
 data/*.csv
-
