@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the associated paper."
+title: "LiDAR and Camera Image Recognition"
+type: software
+authors:
+  - family-names: Quito
+    given-names: Benjamin
+  - family-names: Esmahi
+    given-names: Larbi
+repository-code: "https://github.com/benjaminquito/ImageRecognition"
+preferred-citation:
+  type: article
+  title: "Compare and Contrast LiDAR and Non-LiDAR Technology in an Autonomous Vehicle: Developing a Safety Framework"
+  authors:
+    - family-names: Quito
+      given-names: Benjamin
+    - family-names: Esmahi
+      given-names: Larbi
+  journal: "Open Journal of Safety Science and Technology"
+  year: 2023
+  volume: 13
+  start: 101
+  end: 131
+  doi: "10.4236/ojsst.2023.133006"
+
