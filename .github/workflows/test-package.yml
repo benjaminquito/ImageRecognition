@@ -1,0 +1,28 @@
+name: Test Python package
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - name: Install package
+        run: python -m pip install .
+      - name: Check package and CLI
+        run: |
+          python -c "import image_recognition; print(image_recognition.__version__)"
+          image-recognition --help
+          image-recognition safety init /tmp/safety-runs.csv --runs 2
+      - name: Run unit tests
+        run: python -m unittest -v
+
