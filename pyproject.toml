@@ -3,6 +3,7 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
+license = "MIT"
 name = "lidar-camera-image-recognition"
 version = "0.1.0"
 description = "Reproducible CNN, VGG16, and AV safety-framework experiments"
