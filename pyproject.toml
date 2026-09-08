@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lidar-camera-image-recognition"
+version = "0.1.0"
+description = "Reproducible CNN, VGG16, and AV safety-framework experiments"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+  { name = "Benjamin Quito" },
+  { name = "Larbi Esmahi" },
+]
+keywords = [
+  "computer-vision",
+  "image-classification",
+  "lidar",
+  "autonomous-vehicles",
+  "reproducible-research",
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Education",
+  "Intended Audience :: Science/Research",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+  "tensorflow>=2.16,<2.17",
+  "numpy>=1.26,<2",
+  "matplotlib>=3.8,<3.9",
+  "Pillow>=10.3,<11",
+]
+
+[project.scripts]
+image-recognition = "image_recognition.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/benjaminquito/ImageRecognition"
+Repository = "https://github.com/benjaminquito/ImageRecognition"
+Paper = "https://doi.org/10.4236/ojsst.2023.133006"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+

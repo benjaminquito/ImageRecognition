@@ -12,11 +12,11 @@ from the proposed (not yet completed) vehicle experiment.
 
 ## What is reproduced
 
-| Paper component | Script | Output |
+| Paper component | Package command | Output |
 |---|---|---|
-| 28 × 28 CNN on MNIST | `train_mnist.py` | Saved model, metrics, history, and accuracy/loss plots |
-| ImageNet VGG16 inference | `predict_vgg16.py` | Top-k labels and probabilities for an input image |
-| LiDAR/camera safety framework | `safety_framework.py` | Blank 25-run protocol and aggregated weather results |
+| 28 × 28 CNN on MNIST | `image-recognition train-mnist` | Saved model, metrics, history, and accuracy/loss plots |
+| ImageNet VGG16 inference | `image-recognition predict-vgg16` | Top-k labels and probabilities for an input image |
+| LiDAR/camera safety framework | `image-recognition safety` | Blank 25-run protocol and aggregated weather results |
 
 The MNIST network follows the architecture in sections 3.6.1–3.6.4: two
 5 × 5 convolution layers (32 and 64 filters), max pooling, a 1,024-unit dense
@@ -51,7 +51,21 @@ recommended.
 python3.10 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
-pip install -r requirements.txt
+python -m pip install .
+```
+
+For development, use an editable installation so source changes are immediately
+available:
+
+```bash
+python -m pip install --editable .
+```
+
+Verify the installed package and command:
+
+```bash
+python -c "import image_recognition; print(image_recognition.__version__)"
+image-recognition --help
 ```
 
 ## Run the MNIST experiment
@@ -59,20 +73,20 @@ pip install -r requirements.txt
 Full 25-epoch reproduction:
 
 ```bash
-python train_mnist.py --epochs 25 --output-dir artifacts/mnist
+image-recognition train-mnist --epochs 25 --output-dir artifacts/mnist
 ```
 
 Optional dropout enhancement described in section 3.6.5:
 
 ```bash
-python train_mnist.py --epochs 25 --dropout 0.5 \
+image-recognition train-mnist --epochs 25 --dropout 0.5 \
   --output-dir artifacts/mnist-dropout
 ```
 
 For a quick pipeline check:
 
 ```bash
-python train_mnist.py --epochs 1 --train-limit 2048 --test-limit 512 \
+image-recognition train-mnist --epochs 1 --train-limit 2048 --test-limit 512 \
   --output-dir artifacts/smoke
 ```
 
@@ -82,7 +96,7 @@ Each run writes `model.keras`, `metrics.json`, `history.csv`,
 ## Run VGG16 inference
 
 ```bash
-python predict_vgg16.py path/to/image.jpg --top 10 \
+image-recognition predict-vgg16 path/to/image.jpg --top 10 \
   --output artifacts/vgg16-prediction.json
 ```
 
@@ -96,13 +110,13 @@ Create a protocol with 25 runs for each combination of driver mode,
 technology, and weather condition:
 
 ```bash
-python safety_framework.py init data/safety_runs.csv --runs 25
+image-recognition safety init data/safety_runs.csv --runs 25
 ```
 
 Fill the measurement columns in the CSV, then aggregate results:
 
 ```bash
-python safety_framework.py summarize data/safety_runs.csv \
+image-recognition safety summarize data/safety_runs.csv \
   --output artifacts/safety_summary.csv
 ```
 
@@ -121,9 +135,17 @@ The lightweight tests do not download datasets or TensorFlow weights:
 
 ```bash
 python -m unittest -v
-python -m compileall -q model.py train_mnist.py predict_vgg16.py \
-  safety_framework.py
+python -m compileall -q src
 ```
+
+GitHub Actions runs these packaging checks automatically on every push and pull
+request. The original root-level Python scripts remain available as
+backward-compatible wrappers.
+
+## Published reproduction
+
+The verified 25-epoch run reached 99.20% test accuracy. See [RESULTS.md](RESULTS.md)
+for the environment, comparison with the paper, raw metrics, and curves.
 
 ## Reproducibility boundary
 
